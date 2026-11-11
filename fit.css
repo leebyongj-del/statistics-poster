@@ -17,6 +17,18 @@
 .poster-sheet .fit-compact td,.poster-sheet .fit-compact th{padding:4px 6px}
 .poster-sheet .fit-compact .stats{margin:8px 0}
 .poster-sheet .fit-compact .stat{padding:6px}
+/* Keep chart geometry independent of card span and of the page-fit scale. */
+.poster-sheet .poster-card .chart{display:block;width:min(100%,calc(560px * var(--fit-density,1)));height:auto;max-width:100%;max-height:none;margin:8px auto;aspect-ratio:auto;object-fit:contain}
+.poster-sheet .poster{--fit-density:1}
+.poster-sheet .poster h2{font-size:calc(var(--title-size) * var(--fit-density));}
+.poster-sheet .poster p{font-size:calc(var(--body-size) * var(--fit-density));}
+.poster-sheet .poster .poster-callout p{font-size:calc(20px * var(--fit-density));}
+.poster-sheet .poster td,.poster-sheet .poster th{font-size:calc(13px * var(--fit-density));}
+.poster-sheet .poster .stat b{font-size:calc(19px * var(--fit-density));}
+.poster-sheet .poster-card h3{font-size:calc(17px * var(--fit-density));}
+.poster-sheet .poster small,.poster-sheet .poster .source,.poster-sheet .poster .eyebrow{font-size:calc(11px * var(--fit-density));}
+.poster-sheet .poster .stat{font-size:calc(11px * var(--fit-density));min-width:0;overflow-wrap:anywhere}
+.poster-sheet .poster .poster-grid{align-items:start}
 @page{size:A3 portrait;margin:0}
 @media print{
  html,body{margin:0!important;padding:0!important;width:297mm!important;height:419mm!important;background:white!important}
@@ -26,3 +38,5 @@
  .poster-sheet .poster{transform:scale(var(--print-scale))!important;left:var(--print-left)!important;break-inside:avoid}
  .chart .hit-target{display:none!important}
 }
+
+.poster-sheet .poster-card .chart[viewBox="0 0 280 280"]{width:min(100%,calc(280px * var(--fit-density,1)))}
