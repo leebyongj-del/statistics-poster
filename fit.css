@@ -1,0 +1,28 @@
+/* A fixed A3 sheet; all content is measured before scaling, never truncated. */
+.poster-sheet{position:relative;width:100%;aspect-ratio:297/420;overflow:hidden;background:var(--sheet-paper,#fffef9);border-radius:12px;box-shadow:4px 5px 0 #eee1d5,0 18px 34px #7a614b18}
+.poster-sheet .poster{position:absolute;top:0;left:0;width:1000px;min-height:0;max-width:none;transform-origin:top left;box-shadow:none;overflow:visible;border-radius:0;padding:34px;box-sizing:border-box}
+.poster-sheet .poster h2{font-size:var(--title-size)}
+.poster-sheet .poster-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.poster-sheet .poster.single .poster-grid{grid-template-columns:minmax(0,1fr)}
+.poster-sheet .poster-head{margin:0 0 20px;padding:24px}
+.poster-sheet .poster-card{min-width:0}
+.poster-sheet .poster p,.poster-sheet .poster td,.poster-sheet .poster th{overflow-wrap:anywhere}
+.poster-sheet .poster .stem{white-space:pre-wrap;overflow-wrap:anywhere}
+.poster-sheet .poster.fit-compact{padding:20px}
+.poster-sheet .fit-compact .poster-head{padding:14px;margin:0 0 12px}
+.poster-sheet .fit-compact .poster-grid{gap:10px}
+.poster-sheet .fit-compact .poster-card{padding:10px}
+.poster-sheet .fit-compact .poster-card h3{margin:0 0 6px;padding:4px 0;font-size:15px}
+.poster-sheet .fit-compact p{margin:4px 0;line-height:1.4}
+.poster-sheet .fit-compact td,.poster-sheet .fit-compact th{padding:4px 6px}
+.poster-sheet .fit-compact .stats{margin:8px 0}
+.poster-sheet .fit-compact .stat{padding:6px}
+@page{size:A3 portrait;margin:0}
+@media print{
+ html,body{margin:0!important;padding:0!important;width:297mm!important;height:419mm!important;background:white!important}
+ body>header,.intro,.steps,.panel,.preview-label,footer,#toast,#data-tooltip,#fit-status{display:none!important}
+ .wrap,.layout,.layout>div:last-child{display:block!important;margin:0!important;padding:0!important;width:297mm!important;max-width:none!important}
+ .poster-sheet{width:297mm!important;height:419mm!important;aspect-ratio:auto!important;margin:0!important;border:0!important;border-radius:0!important;box-shadow:none!important;break-inside:avoid;overflow:hidden!important;print-color-adjust:exact;-webkit-print-color-adjust:exact}
+ .poster-sheet .poster{transform:scale(var(--print-scale))!important;left:var(--print-left)!important;break-inside:avoid}
+ .chart .hit-target{display:none!important}
+}
