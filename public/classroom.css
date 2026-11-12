@@ -15,3 +15,5 @@ body[data-role="entry"]>header,body[data-role="entry"]>main,body[data-role="entr
 #form input:disabled,#form textarea:disabled,#form select:disabled{opacity:.8;color:#635b52}
 @media(max-width:500px){.role-buttons{grid-template-columns:1fr}.class-item{flex-direction:column;align-items:start}}
 @media print{#classroom-portal,#classroom-bar{display:none!important}body[data-role="entry"]>main{display:none!important}}
+
+#student-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}.student-status{background:#f1f5eb;padding:20px;border-radius:18px;border:1px solid #d7dfcb}.student-status p{font-size:13px;line-height:1.7;overflow-wrap:anywhere}.student-status details{margin-top:16px}.student-status details p{padding:8px;background:#fffaf4;border-radius:8px}.presence{font-weight:bold;color:#506449}.tracking-notice{background:#fff0d9;border-radius:14px;padding:16px;line-height:1.7;font-size:13px}.class-item{flex-wrap:wrap}

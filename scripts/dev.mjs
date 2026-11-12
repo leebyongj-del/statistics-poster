@@ -5,6 +5,7 @@ import worker from '../dist/server/index.js';
 fs.mkdirSync('.local',{recursive:true});
 const db=new DatabaseSync('.local/classroom.sqlite');
 if(!db.prepare("SELECT name FROM sqlite_master WHERE name='class_runs'").get())db.exec(fs.readFileSync('drizzle/0000_classroom.sql','utf8'));
+if(!db.prepare("SELECT name FROM sqlite_master WHERE name='presence'").get())db.exec(fs.readFileSync('drizzle/0001_progress.sql','utf8'));
 const DB={prepare(sql){let args=[];return {bind(...v){args=v;return this},async first(){return db.prepare(sql).get(...args)||null},async all(){return {results:db.prepare(sql).all(...args)}},async run(){const r=db.prepare(sql).run(...args);return {meta:{changes:r.changes}}}}}};
 http.createServer(async(req,res)=>{try{
  const chunks=[];for await(const chunk of req)chunks.push(chunk);
