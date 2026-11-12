@@ -1,0 +1,5 @@
+#poster .poster-head h2{font-family:var(--poster-title-font,inherit)}
+#poster svg text{font-family:inherit}
+.font-preview{background:#fff9ef;border:1px solid #eadac7;border-radius:16px;padding:18px;margin-top:16px;box-shadow:0 3px 0 #ead8c944}
+.font-preview strong{display:block;font-size:25px;line-height:1.5;color:#65503e;overflow-wrap:anywhere}
+.font-preview p{font-size:16px;line-height:1.7;margin-bottom:0}
