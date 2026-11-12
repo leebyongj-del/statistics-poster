@@ -1,0 +1,10 @@
+const assert=require('node:assert/strict');
+const {analyze,grouped}=require('../public/stats.js');
+const d={kind:'numeric',raw:'0,0,5,5,10,10,10,10,15,15,15,15,20,20,20,25,25,30,30,30,35,40,45,50,60',start:'0',width:'10'};
+assert.equal(analyze(d).mean,21.6);assert.equal(analyze(d).median,20);assert.deepEqual(analyze(d).mode,[10,15]);assert.deepEqual(grouped(d).freq,[4,8,5,4,2,1,1]);
+assert.deepEqual(grouped({...d,raw:'0.1,0.2,0.3',start:0,width:0.1}).freq,[0,1,1,1]);
+assert.equal(analyze({...d,raw:'1,2,3,4'}).median,2.5);
+assert.deepEqual(analyze({...d,raw:'1,2,3'}).mode,[]);
+assert.ok(analyze({...d,raw:'10,abc'}).error);assert.ok(grouped({...d,width:0}).error);assert.ok(grouped({...d,start:1}).error);assert.ok(grouped({...d,width:''}).error);
+const cat=analyze({kind:'category',raw:'소설,만화,소설\n역사'});assert.deepEqual(cat.labels,['소설','만화','역사']);assert.deepEqual(cat.freq,[2,1,1]);assert.equal(cat.n,4);
+console.log('PASS: averages, medians, modes, bin edges, decimals, validation, category counts');

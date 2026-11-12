@@ -1,0 +1,12 @@
+{
+  "name": "statistics-poster",
+  "private": true,
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "dev": "node scripts/build.mjs && node scripts/dev.mjs",
+    "test": "node tests/classroom.mjs && node tests/fit.cjs && node tests/stats.cjs && node tests/rubric.cjs"
+  },
+  "engines": {
+    "node": ">=24"
+  }
+}

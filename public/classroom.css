@@ -1,0 +1,17 @@
+body[data-role="entry"]>header,body[data-role="entry"]>main,body[data-role="entry"]>footer{display:none}
+#classroom-portal{max-width:850px;margin:6vh auto;padding:24px}
+.role-card{background:#fffdf8;border:1px solid white;border-radius:28px;padding:clamp(22px,5vw,48px);box-shadow:0 7px 0 #ead8c9,0 20px 50px #93705b19}
+.role-card h1{font-size:clamp(24px,4vw,32px);margin:18px 0}
+.role-buttons{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin:32px 0}
+.role-buttons button{padding:36px 18px;background:#f5e2d3;font-size:26px;font-weight:800}
+.role-buttons button+button{background:#e4ecdf}
+.role-buttons span{display:block;font-size:13px;font-weight:400;margin-top:12px}
+.role-card form{margin-bottom:28px}.role-card form button{margin-top:20px}
+#portal-message{white-space:pre-wrap;color:#92533b;font-weight:bold}
+#classroom-bar{display:flex;gap:16px;align-items:center;justify-content:space-between;padding:12px 5%;background:#e6eddc;border-bottom:1px solid #ccd5c1;flex-wrap:wrap;font-size:13px}
+#classroom-bar[hidden],#classroom-portal[hidden]{display:none}
+.class-item{display:flex;justify-content:space-between;align-items:center;gap:12px;background:#faf1e7;padding:18px;border-radius:18px;margin:14px 0}
+.class-code{font-size:25px;letter-spacing:3px;color:#795548}
+#form input:disabled,#form textarea:disabled,#form select:disabled{opacity:.8;color:#635b52}
+@media(max-width:500px){.role-buttons{grid-template-columns:1fr}.class-item{flex-direction:column;align-items:start}}
+@media print{#classroom-portal,#classroom-bar{display:none!important}body[data-role="entry"]>main{display:none!important}}

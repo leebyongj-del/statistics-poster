@@ -1,0 +1,35 @@
+import {DatabaseSync} from 'node:sqlite';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import {webcrypto} from 'node:crypto';
+const db=new DatabaseSync(':memory:');db.exec(fs.readFileSync('drizzle/0000_classroom.sql','utf8').replaceAll('--> statement-breakpoint',''));
+const DB={prepare(sql){let args=[];return {bind(...v){args=v;return this},async first(){return db.prepare(sql).get(...args)||null},async all(){return {results:db.prepare(sql).all(...args)}},async run(){const r=db.prepare(sql).run(...args);return {meta:{changes:r.changes}}}}}};
+const {default:worker}=await import('../dist/server/index.js');
+const env={DB,TEACHER_PIN:'123456'};let teacher='',student='';
+async function request(path,method='GET',body,cookie='',origin='https://test.local'){
+ const r=await worker.fetch(new Request('https://test.local/api/'+path,{method,headers:{cookie,origin,...(method!=='GET'?{'content-type':'application/json'}:{})},body:method==='GET'?undefined:JSON.stringify(body)}),env);
+ return {status:r.status,data:await r.json(),cookie:r.headers.get('set-cookie')?.split(';')[0]};
+}
+assert.equal((await request('teacher/classes')).status,401);
+assert.equal((await request('teacher/login','POST',{pin:'wrong'})).status,401);
+let r=await request('teacher/login','POST',{pin:'123456'});assert.equal(r.status,200);teacher=r.cookie;
+r=await request('teacher/classes','POST',{grade:1,room:1,title:'test'},teacher);assert.equal(r.status,201);assert.equal(r.data.code,'101');let first=r.data.id;
+assert.equal((await request('teacher/classes','POST',{grade:1,room:1,title:'duplicate'},teacher)).status,409);
+assert.equal((await request('teacher/classes','POST',{grade:1,room:2,title:'next'},teacher)).data.code,'102');
+assert.equal((await request('student/join','POST',{code:'999',name:'test'})).status,400);
+r=await request('student/join','POST',{code:'101',name:'테스트',number:'1'});assert.equal(r.status,200);student=r.cookie;
+const data={datasets:[{name:'자료',source:'직접 조사'}],cards:[],motivation:'계기',proposal:'실천',reflection:'성찰'};
+assert.equal((await request('student/draft','PUT',{data},student)).status,200);
+assert.deepEqual((await request('student/draft','GET',undefined,student)).data.data,data);
+assert.equal((await request('teacher/close','POST',{id:first},student)).status,401);
+assert.equal((await request('teacher/close','POST',{id:first},teacher,'https://bad.local')).status,403);
+assert.equal((await request('teacher/close','POST',{id:first},teacher)).status,200);
+assert.equal((await request('student/session','GET',undefined,student)).data.class.active,0);
+assert.equal((await request('student/draft','PUT',{data:{...data,motivation:'changed'}},student)).status,423);
+assert.equal((await request('student/draft','GET',undefined,student)).data.data.motivation,'계기');
+assert.equal((await request('student/join','POST',{code:'101',name:'other'})).status,409);
+r=await request('teacher/classes','POST',{grade:1,room:1,title:'new lesson'},teacher);assert.equal(r.status,201);assert.notEqual(r.data.id,first);
+assert.equal((await request('student/draft','PUT',{data},student)).status,423);
+r=await request('student/join','POST',{code:'101',name:'테스트',number:'1'},student);assert.equal(r.status,200);assert.notEqual(r.data.class.id,first);
+assert.equal((await request('student/draft','GET',undefined,r.cookie)).data.data,null);
+console.log('PASS: authentication, 101/102 codes, duplicate lesson, draft roundtrip, closure write denial, closed-run isolation, origin check.');
